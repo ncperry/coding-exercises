@@ -7,6 +7,6 @@
 
 import Foundation
 
-struct Location: Decodable {
-    let id: Int
+public struct Location: Decodable {
+    public let id: Int
 }
