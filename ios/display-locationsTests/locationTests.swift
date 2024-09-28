@@ -43,5 +43,9 @@ struct locationTests {
     @Test mutating func testDecodeLocation() async throws {
         let location = try JSONDecoder().decode(Location.self, from: self.encodedString)
         #expect(location.id == 1)
+        #expect(location.latitude == 37.7750)
+        #expect(location.longitude == -122.4195)
+        #expect(location.attributes.count == 4)
+        #expect(location.attributes[0].type == "location_type")
     }
 }

@@ -7,6 +7,14 @@
 
 import Foundation
 
+struct LocationAttribute: Decodable {
+    let type: String
+
+}
+
 struct Location: Decodable {
     let id: Int
+    let latitude: Float
+    let longitude: Float
+    let attributes: [LocationAttribute]
 }
