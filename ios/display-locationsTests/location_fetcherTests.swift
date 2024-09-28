@@ -16,7 +16,7 @@ struct location_fetcherTests {
 
     @Test func testFetchLocations() async throws {
         let fetcher = LocationFetcher.init()
-        let json = try await fetcher.fetchLocations()
-        #expect(json!.contains("Golden Gate Grill"))
+        let locations = try await fetcher.fetchLocations()
+        #expect(locations[0].id == 1)
     }
 }
