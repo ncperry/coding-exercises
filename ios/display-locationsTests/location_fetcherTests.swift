@@ -18,5 +18,6 @@ struct location_fetcherTests {
         let fetcher = LocationFetcher.init()
         let locations = try await fetcher.fetchLocations()
         #expect(locations[0].id == 1)
+        #expect(locations.count == 45)
     }
 }

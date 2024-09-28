@@ -13,7 +13,7 @@ struct LocationFetcher {
 
     func fetchLocations() async throws -> [Location] {
         let (data, _) = try await session.data(from: url)
-        let json = String(bytes: data, encoding: String.Encoding.utf8)
-        return [Location.init(id: 1)]
+        let locations = try JSONDecoder().decode([Location].self, from: data)
+        return locations
     }
 }
