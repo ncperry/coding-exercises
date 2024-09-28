@@ -7,7 +7,7 @@
 
 import Testing
 import Foundation
-import display_locations
+@testable import display_locations
 
 struct locationTests {
 
