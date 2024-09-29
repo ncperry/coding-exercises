@@ -9,18 +9,23 @@ import SwiftUI
 import MapKit
 
 struct ContentView: View {
-    let initialMapRegion = MapCameraPosition.region(
-        MKCoordinateRegion(
-            center: CLLocationCoordinate2D(latitude: 37.7749, longitude: -122.4194),
-            span: MKCoordinateSpan(latitudeDelta: 1, longitudeDelta: 1)
-        )
-    )
-
+    let sanFranciscoCoordinates: CLLocationCoordinate2D
+    let initialMapRegion: MapCameraPosition
     var body: some View {
         Map(initialPosition: initialMapRegion) {
 
         }
         .mapControlVisibility(.hidden)
+    }
+
+    init() {
+        sanFranciscoCoordinates = CLLocationCoordinate2D(latitude: 37.7749, longitude: -122.4194)
+        initialMapRegion = MapCameraPosition.region(
+            MKCoordinateRegion(
+                center: sanFranciscoCoordinates,
+                span: MKCoordinateSpan(latitudeDelta: 1, longitudeDelta: 1)
+            )
+        )
     }
 }
 
