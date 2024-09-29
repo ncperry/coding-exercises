@@ -54,6 +54,6 @@ struct locationTests {
         #expect(location.attributes[0].type == "location_type")
         #expect(location.attributes[0].value == .string("restaurant"))
         #expect(location.attributes[3].type == "estimated_revenue_millions")
-        #expect(location.attributes[3].value == .float(10.5))
+        #expect(location.attributes[3].value == .double(10.5))
     }
 }

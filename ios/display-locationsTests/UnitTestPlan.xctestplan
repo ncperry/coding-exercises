@@ -1,0 +1,25 @@
+{
+  "configurations" : [
+    {
+      "id" : "5FEFF3AD-1ABE-44B0-B800-FF96182FA8BC",
+      "name" : "Configuration 1",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "testTimeoutsEnabled" : true
+  },
+  "testTargets" : [
+    {
+      "parallelizable" : false,
+      "target" : {
+        "containerPath" : "container:display-locations.xcodeproj",
+        "identifier" : "6845F69C2CA87694007DF555",
+        "name" : "display-locationsTests"
+      }
+    }
+  ],
+  "version" : 1
+}
