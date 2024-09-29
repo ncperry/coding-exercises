@@ -15,14 +15,8 @@ struct filtersTests {
             LocationType.restaurant: true
         ]
         filters.locations = [
-            Location.init(id: 0, latitude: 0, longitude: 0, attributes: [
-                .init(type: "name", value: .string("i'm a restaurant")),
-                .init(type: "location_type", value: .string("restaurant"))
-            ]),
-            Location.init(id: 0, latitude: 0, longitude: 0, attributes: [
-                .init(type: "name", value: .string("i'm a bar")),
-                .init(type: "location_type", value: .string("bar"))
-            ])
+            Location.init(id: 0, latitude: 0, longitude: 0, name: "i'm a restaurant", type: .restaurant, description: "", estimatedRevenueMillions: 0),
+            Location.init(id: 0, latitude: 0, longitude: 0, name: "i'm a bar", type: .bar, description: "", estimatedRevenueMillions: 0)
         ]
         let visibleNames = filters.visibleLocations.map { $0.name }
         #expect(visibleNames.contains("i'm a restaurant"))

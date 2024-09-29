@@ -49,40 +49,62 @@ struct Location: Decodable, Identifiable {
     let id: Int
     let latitude: Double
     let longitude: Double
-    let attributes: [LocationAttribute]
+    let name: String
+    let type: LocationType
+    let description: String
+    let estimatedRevenueMillions: Double
 
-    var name: String {
+    enum CodingKeys: String, CodingKey {
+        case id
+        case latitude
+        case longitude
+        case name
+        case type
+        case description
+        case estimatedRevenueMillions
+        case attributes
+    }
+    
+    init(id: Int, latitude: Double, longitude: Double, name: String, type: LocationType, description: String, estimatedRevenueMillions: Double) {
+        self.id = id
+        self.latitude = latitude
+        self.longitude = longitude
+        self.name = name
+        self.type = type
+        self.description = description
+        self.estimatedRevenueMillions = estimatedRevenueMillions
+    }
+
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        id = try container.decode(Int.self, forKey: .id)
+        latitude = try container.decode(Double.self, forKey: .latitude)
+        longitude = try container.decode(Double.self, forKey: .longitude)
+        let attributes = try container.decode([LocationAttribute].self, forKey: .attributes)
         let nameAttribute = attributes.first { $0.type == "name" }
-        guard case .string(let nameValue) = nameAttribute?.value else {
-            return ""
+        if case .string(let nameValue) = nameAttribute?.value {
+            name = nameValue
+        } else {
+            name = ""
         }
-        return nameValue
-    }
-
-    var type: LocationType {
         let typeAttribute = attributes.first { $0.type == "location_type" }
-        guard case .string(let typeValue) = typeAttribute?.value else {
-            return .unknown
+        if case .string(let typeValue) = typeAttribute?.value,
+           let locationType = LocationType(rawValue: typeValue) {
+            type = locationType
+        } else {
+            type = .unknown
         }
-        guard let locationType = LocationType(rawValue: typeValue) else {
-            return .unknown
-        }
-        return locationType
-    }
-
-    var description: String {
         let descriptionAttribute = attributes.first { $0.type == "description" }
-        guard case .string(let descriptionValue) = descriptionAttribute?.value else {
-            return ""
+        if case .string(let descriptionValue) = descriptionAttribute?.value {
+            description = descriptionValue
+        } else {
+            description = ""
         }
-        return descriptionValue
-    }
-
-    var estimatedRevenueMillions: Double {
         let revenueAttribute = attributes.first { $0.type == "estimated_revenue_millions" }
-        guard case .double(let revenueValue) = revenueAttribute?.value else {
-            return 0
+        if case .double(let revenueValue) = revenueAttribute?.value {
+            estimatedRevenueMillions = revenueValue
+        } else {
+            estimatedRevenueMillions = 0
         }
-        return revenueValue
     }
 }

@@ -53,14 +53,6 @@ struct locationTests {
         #expect(location.estimatedRevenueMillions == 10.5)
     }
 
-    @Test mutating func testDecodeAttributes() {
-        #expect(location.attributes.count == 4)
-        #expect(location.attributes[0].type == "location_type")
-        #expect(location.attributes[0].value == .string("restaurant"))
-        #expect(location.attributes[3].type == "estimated_revenue_millions")
-        #expect(location.attributes[3].value == .double(10.5))
-    }
-
     @Test func testDoesNotDisplayUnknown() {
         #expect(!LocationType.displayedCases().contains(.unknown))
     }
