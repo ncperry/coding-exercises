@@ -9,13 +9,13 @@ import Foundation
 
 enum LocationAttributeValue: Decodable, Equatable {
     case string(String)
-    case float(Double)
+    case double(Double)
 
     init(from decoder: Decoder) throws {
         do {
             self = .string(try decoder.singleValueContainer().decode(String.self))
         } catch DecodingError.typeMismatch {
-            self = .float(try decoder.singleValueContainer().decode(Double.self))
+            self = .double(try decoder.singleValueContainer().decode(Double.self))
         }
     }
 }
