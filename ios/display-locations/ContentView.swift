@@ -23,7 +23,7 @@ struct ContentView: View {
                     Toggle(isOn: filters.binding(for: locationType)) {
                         Text(locationType.label)
                     }
-                 }
+                }
             }
             .menuActionDismissBehavior(.disabled)
             Map(initialPosition: initialMapRegion) {
