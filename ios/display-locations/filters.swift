@@ -13,7 +13,7 @@ class Filters: ObservableObject {
     @Published var filters: Dictionary<LocationType, Bool> = [:]
 
     init() {
-        LocationType.allCases.forEach({ type in
+        LocationType.displayedCases().forEach({ type in
             filters[type] = true
         })
     }

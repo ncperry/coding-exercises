@@ -19,7 +19,7 @@ struct ContentView: View {
     var body: some View {
         VStack {
             Menu("Location Types") {
-                ForEach(LocationType.allCases, id: \.self) { locationType in
+                ForEach(LocationType.displayedCases(), id: \.self) { locationType in
                     Toggle(isOn: filters.binding(for: locationType)) {
                         Text(locationType.rawValue)
                     }
