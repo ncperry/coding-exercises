@@ -7,19 +7,6 @@
 
 import Foundation
 
-enum LocationAttributeValue: Decodable, Equatable {
-    case string(String)
-    case double(Double)
-
-    init(from decoder: Decoder) throws {
-        do {
-            self = .string(try decoder.singleValueContainer().decode(String.self))
-        } catch DecodingError.typeMismatch {
-            self = .double(try decoder.singleValueContainer().decode(Double.self))
-        }
-    }
-}
-
 enum LocationType: String, CaseIterable {
     case restaurant
     case museum
@@ -38,11 +25,6 @@ enum LocationType: String, CaseIterable {
             type1.rawValue < type2.rawValue
         })
     }
-}
-
-struct LocationAttribute: Decodable {
-    let type: String
-    let value: LocationAttributeValue
 }
 
 struct Location: Decodable, Identifiable {
