@@ -26,4 +26,11 @@ struct location_fetcherTests {
         let fetcher2 = LocationFetcher.shared
         #expect(fetcher1 === fetcher2)
     }
+
+    @Test func testConfigureJSONResponse() async throws {
+        let fetcher = LocationFetcher.shared
+        fetcher.configureResponse(data: LocationFixtures.sampleResponseData())
+        let locations = try await fetcher.fetchLocations()
+        #expect(locations.count == 10)
+    }
 }
