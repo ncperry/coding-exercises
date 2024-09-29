@@ -63,43 +63,9 @@ struct Location: Decodable, Identifiable {
         latitude = try container.decode(Double.self, forKey: .latitude)
         longitude = try container.decode(Double.self, forKey: .longitude)
         let attributes = try container.decode([LocationAttribute].self, forKey: .attributes)
-        name = try Location.decodeStringFrom(attributes: attributes, for: "name")
-        type = try Location.decodeTypeFrom(attributes: attributes)
-        description = try Location.decodeStringFrom(attributes: attributes, for: "description")
-        estimatedRevenueMillions = try Location.decodeRevenueFrom(attributes: attributes)
-    }
-
-    private static func decodeTypeFrom(attributes: [LocationAttribute]) throws -> LocationType {
-        guard let typeAttribute = attributes.first(where: { $0.type == "location_type" }) else {
-            throw LocationDecodingError.attributeNotFound("location_type")
-        }
-        guard case .string(let typeValue) = typeAttribute.value,
-              let locationType = LocationType(rawValue: typeValue) else {
-            throw LocationDecodingError.mismatchedAttribute("location_type")
-        }
-
-        return locationType
-    }
-
-    private static func decodeStringFrom(attributes: [LocationAttribute], for key: String) throws -> String {
-        guard let attributeForKey = attributes.first(where: { $0.type == key }) else {
-            throw LocationDecodingError.attributeNotFound(key)
-        }
-        guard case .string(let value) = attributeForKey.value else {
-            throw LocationDecodingError.mismatchedAttribute(key)
-        }
-
-        return value
-    }
-
-    private static func decodeRevenueFrom(attributes: [LocationAttribute]) throws -> Double {
-        guard let revenueAttribute = attributes.first(where: { $0.type == "estimated_revenue_millions" }) else {
-            throw LocationDecodingError.attributeNotFound("estimated_revenue_millions")
-        }
-        guard case .double(let value) = revenueAttribute.value else {
-            throw LocationDecodingError.mismatchedAttribute("estimated_revenue_millions")
-        }
-
-        return value
+        name = try LocationDecoder.decodeStringFrom(attributes: attributes, for: "name")
+        type = try LocationDecoder.decodeTypeFrom(attributes: attributes)
+        description = try LocationDecoder.decodeStringFrom(attributes: attributes, for: "description")
+        estimatedRevenueMillions = try LocationDecoder.decodeRevenueFrom(attributes: attributes)
     }
 }
