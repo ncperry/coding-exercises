@@ -30,7 +30,9 @@ enum LocationType: String, CaseIterable {
     case unknown
 
     static func displayedCases() -> [LocationType] {
-        allCases.filter { $0 != .unknown }
+        allCases.filter { $0 != .unknown }.sorted(by: { type1, type2 in
+            type1.rawValue < type2.rawValue
+        })
     }
 }
 

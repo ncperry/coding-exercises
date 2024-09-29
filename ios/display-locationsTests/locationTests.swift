@@ -64,4 +64,8 @@ struct locationTests {
     @Test func testDoesNotDisplayUnknown() {
         #expect(!LocationType.displayedCases().contains(.unknown))
     }
+
+    @Test func testDisplayAlphabetically() {
+        #expect(LocationType.displayedCases() == [.bar, .cafe, .landmark, .museum, .park, .restaurant])
+    }
 }
