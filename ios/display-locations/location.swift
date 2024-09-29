@@ -64,13 +64,7 @@ struct Location: Decodable, Identifiable {
         longitude = try container.decode(Double.self, forKey: .longitude)
         let attributes = try container.decode([LocationAttribute].self, forKey: .attributes)
         name = try Location.decodeNameFrom(attributes: attributes)
-        let typeAttribute = attributes.first { $0.type == "location_type" }
-        if case .string(let typeValue) = typeAttribute?.value,
-           let locationType = LocationType(rawValue: typeValue) {
-            type = locationType
-        } else {
-            type = .unknown
-        }
+        type = try Location.decodeTypeFrom(attributes: attributes)
         let descriptionAttribute = attributes.first { $0.type == "description" }
         if case .string(let descriptionValue) = descriptionAttribute?.value {
             description = descriptionValue
@@ -94,5 +88,17 @@ struct Location: Decodable, Identifiable {
         }
 
         return nameValue
+    }
+
+    private static func decodeTypeFrom(attributes: [LocationAttribute]) throws -> LocationType {
+        guard let typeAttribute = attributes.first(where: { $0.type == "location_type" }) else {
+            throw LocationDecodingError.attributeNotFound("location_type")
+        }
+        guard case .string(let typeValue) = typeAttribute.value,
+              let locationType = LocationType(rawValue: typeValue) else {
+            throw LocationDecodingError.mismatchedAttribute("location_type")
+        }
+
+        return locationType
     }
 }
