@@ -39,12 +39,17 @@ struct locationTests {
     lazy var encodedString: Data = {
         jsonString.data(using: .utf8)!
     }()
+    lazy var location: Location = {
+        try! JSONDecoder().decode(Location.self, from: self.encodedString)
+    }()
 
-    @Test mutating func testDecodeLocation() async throws {
-        let location = try JSONDecoder().decode(Location.self, from: self.encodedString)
+    @Test mutating func testDecodeLocation() {
         #expect(location.id == 1)
         #expect(location.latitude == 37.7750)
         #expect(location.longitude == -122.4195)
+    }
+
+    @Test mutating func testDecodeAttributes() {
         #expect(location.attributes.count == 4)
         #expect(location.attributes[0].type == "location_type")
         #expect(location.attributes[0].value == .string("restaurant"))
