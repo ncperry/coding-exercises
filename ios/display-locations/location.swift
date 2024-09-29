@@ -20,7 +20,7 @@ enum LocationAttributeValue: Decodable, Equatable {
     }
 }
 
-enum LocationType: String {
+enum LocationType: String, CaseIterable {
     case restaurant
     case museum
     case park

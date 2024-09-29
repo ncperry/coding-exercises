@@ -12,17 +12,31 @@ struct ContentView: View {
     let sanFranciscoCoordinates: CLLocationCoordinate2D
     let initialMapRegion: MapCameraPosition
     @MainActor @State private var locations = [Location]()
+    @MainActor @State private var selectedTypes = [LocationType]()
+    @ObservedObject var filters = Filters()
+
+    @MainActor @State private var isOn = true;
     var body: some View {
-        Map(initialPosition: initialMapRegion) {
-            ForEach(locations) { location in
-                Marker(location.name, coordinate: CLLocationCoordinate2D(latitude: location.latitude, longitude: location.longitude))
+        VStack {
+            Menu("Location Types") {
+                ForEach(LocationType.allCases, id: \.self) { locationType in
+                    Toggle(isOn: filters.binding(for: locationType)) {
+                        Text(locationType.rawValue)
+                    }
+                 }
             }
-        }
-        .mapControlVisibility(.hidden)
-        .onAppear {
-            Task {
-                let fetcher = LocationFetcher.shared
-                locations = try! await fetcher.fetchLocations()
+            .menuActionDismissBehavior(.disabled)
+            Map(initialPosition: initialMapRegion) {
+                ForEach(locations) { location in
+                    Marker(location.name, coordinate: CLLocationCoordinate2D(latitude: location.latitude, longitude: location.longitude))
+                }
+            }
+            .mapControlVisibility(.hidden)
+            .onAppear {
+                Task {
+                    let fetcher = LocationFetcher.shared
+                    locations = try! await fetcher.fetchLocations()
+                }
             }
         }
     }
