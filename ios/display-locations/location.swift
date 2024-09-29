@@ -63,31 +63,16 @@ struct Location: Decodable, Identifiable {
         latitude = try container.decode(Double.self, forKey: .latitude)
         longitude = try container.decode(Double.self, forKey: .longitude)
         let attributes = try container.decode([LocationAttribute].self, forKey: .attributes)
-        name = try Location.decodeNameFrom(attributes: attributes)
+        name = try Location.decodeStringFrom(attributes: attributes, for: "name")
         type = try Location.decodeTypeFrom(attributes: attributes)
-        let descriptionAttribute = attributes.first { $0.type == "description" }
-        if case .string(let descriptionValue) = descriptionAttribute?.value {
-            description = descriptionValue
-        } else {
-            description = ""
-        }
+        description = try Location.decodeStringFrom(attributes: attributes, for: "description")
+
         let revenueAttribute = attributes.first { $0.type == "estimated_revenue_millions" }
         if case .double(let revenueValue) = revenueAttribute?.value {
             estimatedRevenueMillions = revenueValue
         } else {
             estimatedRevenueMillions = 0
         }
-    }
-
-    private static func decodeNameFrom(attributes: [LocationAttribute]) throws -> String {
-        guard let nameAttribute = attributes.first(where: { $0.type == "name" }) else {
-            throw LocationDecodingError.attributeNotFound("name")
-        }
-        guard case .string(let nameValue) = nameAttribute.value else {
-            throw LocationDecodingError.mismatchedAttribute("name")
-        }
-
-        return nameValue
     }
 
     private static func decodeTypeFrom(attributes: [LocationAttribute]) throws -> LocationType {
@@ -100,5 +85,16 @@ struct Location: Decodable, Identifiable {
         }
 
         return locationType
+    }
+
+    private static func decodeStringFrom(attributes: [LocationAttribute], for key: String) throws -> String {
+        guard let attributeForKey = attributes.first(where: { $0.type == key }) else {
+            throw LocationDecodingError.attributeNotFound(key)
+        }
+        guard case .string(let value) = attributeForKey.value else {
+            throw LocationDecodingError.mismatchedAttribute(key)
+        }
+
+        return value
     }
 }
