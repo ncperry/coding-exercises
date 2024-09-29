@@ -66,13 +66,7 @@ struct Location: Decodable, Identifiable {
         name = try Location.decodeStringFrom(attributes: attributes, for: "name")
         type = try Location.decodeTypeFrom(attributes: attributes)
         description = try Location.decodeStringFrom(attributes: attributes, for: "description")
-
-        let revenueAttribute = attributes.first { $0.type == "estimated_revenue_millions" }
-        if case .double(let revenueValue) = revenueAttribute?.value {
-            estimatedRevenueMillions = revenueValue
-        } else {
-            estimatedRevenueMillions = 0
-        }
+        estimatedRevenueMillions = try Location.decodeRevenueFrom(attributes: attributes)
     }
 
     private static func decodeTypeFrom(attributes: [LocationAttribute]) throws -> LocationType {
@@ -93,6 +87,17 @@ struct Location: Decodable, Identifiable {
         }
         guard case .string(let value) = attributeForKey.value else {
             throw LocationDecodingError.mismatchedAttribute(key)
+        }
+
+        return value
+    }
+
+    private static func decodeRevenueFrom(attributes: [LocationAttribute]) throws -> Double {
+        guard let revenueAttribute = attributes.first(where: { $0.type == "estimated_revenue_millions" }) else {
+            throw LocationDecodingError.attributeNotFound("estimated_revenue_millions")
+        }
+        guard case .double(let value) = revenueAttribute.value else {
+            throw LocationDecodingError.mismatchedAttribute("estimated_revenue_millions")
         }
 
         return value
