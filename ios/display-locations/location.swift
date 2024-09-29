@@ -14,7 +14,7 @@ enum LocationAttributeValue: Decodable, Equatable {
     init(from decoder: Decoder) throws {
         do {
             self = .string(try decoder.singleValueContainer().decode(String.self))
-        } catch {
+        } catch DecodingError.typeMismatch {
             self = .float(try decoder.singleValueContainer().decode(Float.self))
         }
     }
