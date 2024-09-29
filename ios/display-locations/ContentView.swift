@@ -21,7 +21,7 @@ struct ContentView: View {
             Menu("Location Types") {
                 ForEach(LocationType.displayedCases(), id: \.self) { locationType in
                     Toggle(isOn: filters.binding(for: locationType)) {
-                        Text(locationType.rawValue)
+                        Text(locationType.label)
                     }
                  }
             }
