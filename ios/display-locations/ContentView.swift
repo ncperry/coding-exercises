@@ -13,7 +13,6 @@ struct ContentView: View {
     let initialMapRegion: MapCameraPosition
     @ObservedObject var filters = Filters()
 
-    @MainActor @State private var isOn = true;
     var body: some View {
         VStack {
             Menu("Location Types") {
