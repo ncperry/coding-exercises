@@ -11,7 +11,6 @@ import MapKit
 struct ContentView: View {
     let sanFranciscoCoordinates: CLLocationCoordinate2D
     let initialMapRegion: MapCameraPosition
-    @MainActor @State private var selectedTypes = [LocationType]()
     @ObservedObject var filters = Filters()
 
     @MainActor @State private var isOn = true;
