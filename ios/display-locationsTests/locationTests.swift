@@ -47,6 +47,10 @@ struct locationTests {
         #expect(location.id == 1)
         #expect(location.latitude == 37.7750)
         #expect(location.longitude == -122.4195)
+        #expect(location.type == .restaurant)
+        #expect(location.name == "Golden Gate Grill")
+        #expect(location.description == "A popular eatery with views of the bay.")
+        #expect(location.estimatedRevenueMillions == 10.5)
     }
 
     @Test mutating func testDecodeAttributes() {

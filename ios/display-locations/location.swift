@@ -20,6 +20,16 @@ enum LocationAttributeValue: Decodable, Equatable {
     }
 }
 
+enum LocationType: String {
+    case restaurant
+    case museum
+    case park
+    case landmark
+    case cafe
+    case bar
+    case unknown
+}
+
 struct LocationAttribute: Decodable {
     let type: String
     let value: LocationAttributeValue
@@ -37,5 +47,32 @@ struct Location: Decodable, Identifiable {
             return ""
         }
         return nameValue
+    }
+
+    var type: LocationType {
+        let typeAttribute = attributes.first { $0.type == "location_type" }
+        guard case .string(let typeValue) = typeAttribute?.value else {
+            return .unknown
+        }
+        guard let locationType = LocationType(rawValue: typeValue) else {
+            return .unknown
+        }
+        return locationType
+    }
+
+    var description: String {
+        let descriptionAttribute = attributes.first { $0.type == "description" }
+        guard case .string(let descriptionValue) = descriptionAttribute?.value else {
+            return ""
+        }
+        return descriptionValue
+    }
+
+    var estimatedRevenueMillions: Double {
+        let revenueAttribute = attributes.first { $0.type == "estimated_revenue_millions" }
+        guard case .double(let revenueValue) = revenueAttribute?.value else {
+            return 0
+        }
+        return revenueValue
     }
 }
