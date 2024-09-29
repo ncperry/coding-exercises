@@ -27,7 +27,7 @@ struct ContentView: View {
             }
             .menuActionDismissBehavior(.disabled)
             Map(initialPosition: initialMapRegion) {
-                ForEach(locations) { location in
+                ForEach(filters.visibleLocations) { location in
                     Marker(location.name, coordinate: CLLocationCoordinate2D(latitude: location.latitude, longitude: location.longitude))
                 }
             }
@@ -35,7 +35,7 @@ struct ContentView: View {
             .onAppear {
                 Task {
                     let fetcher = LocationFetcher.shared
-                    locations = try! await fetcher.fetchLocations()
+                    filters.locations = try! await fetcher.fetchLocations()
                 }
             }
         }
