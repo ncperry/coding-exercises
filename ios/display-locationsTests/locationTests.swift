@@ -47,5 +47,8 @@ struct locationTests {
         #expect(location.longitude == -122.4195)
         #expect(location.attributes.count == 4)
         #expect(location.attributes[0].type == "location_type")
+        #expect(location.attributes[0].value == .string("restaurant"))
+        #expect(location.attributes[3].type == "estimated_revenue_millions")
+        #expect(location.attributes[3].value == .float(10.5))
     }
 }
