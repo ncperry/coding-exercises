@@ -21,7 +21,7 @@ struct ContentView: View {
         .mapControlVisibility(.hidden)
         .onAppear {
             Task {
-                let fetcher = LocationFetcher.init()
+                let fetcher = LocationFetcher.shared
                 locations = try! await fetcher.fetchLocations()
             }
         }

@@ -7,9 +7,11 @@
 
 import Foundation
 
-struct LocationFetcher {
+class LocationFetcher {
     var session = URLSession.shared
     let url = URL.init(string: "https://raw.githubusercontent.com/ncperry/coding-exercises/refs/heads/master/mobile/map-locations/locations.json")!
+
+    static let shared = LocationFetcher()
 
     func fetchLocations() async throws -> [Location] {
         let (data, _) = try await session.data(from: url)
