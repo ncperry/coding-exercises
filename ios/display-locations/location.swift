@@ -63,9 +63,9 @@ struct Location: Decodable, Identifiable {
         latitude = try container.decode(Double.self, forKey: .latitude)
         longitude = try container.decode(Double.self, forKey: .longitude)
         let attributes = try container.decode([LocationAttribute].self, forKey: .attributes)
-        name = try LocationDecoder.decodeStringFrom(attributes: attributes, for: "name")
+        name = try LocationDecoder.decodeNameFrom(attributes: attributes)
         type = try LocationDecoder.decodeTypeFrom(attributes: attributes)
-        description = try LocationDecoder.decodeStringFrom(attributes: attributes, for: "description")
+        description = try LocationDecoder.decodeDescriptionFrom(attributes: attributes)
         estimatedRevenueMillions = try LocationDecoder.decodeRevenueFrom(attributes: attributes)
     }
 }
