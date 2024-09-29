@@ -7,35 +7,65 @@
 
 import Foundation
 
-enum LocationAttributeValue: Decodable, Equatable {
-    case string(String)
-    case double(Double)
+enum LocationType: String, CaseIterable {
+    case restaurant
+    case museum
+    case park
+    case landmark
+    case cafe
+    case bar
+    case unknown
 
-    init(from decoder: Decoder) throws {
-        do {
-            self = .string(try decoder.singleValueContainer().decode(String.self))
-        } catch DecodingError.typeMismatch {
-            self = .double(try decoder.singleValueContainer().decode(Double.self))
-        }
+    var label: String {
+        return rawValue.capitalized
     }
-}
 
-struct LocationAttribute: Decodable {
-    let type: String
-    let value: LocationAttributeValue
+    static func displayedCases() -> [LocationType] {
+        allCases.filter { $0 != .unknown }.sorted(by: { type1, type2 in
+            type1.rawValue < type2.rawValue
+        })
+    }
 }
 
 struct Location: Decodable, Identifiable {
     let id: Int
     let latitude: Double
     let longitude: Double
-    let attributes: [LocationAttribute]
+    let name: String
+    let type: LocationType
+    let description: String
+    let estimatedRevenueMillions: Double
 
-    var name: String {
-        let nameAttribute = attributes.first { $0.type == "name" }
-        guard case .string(let nameValue) = nameAttribute?.value else {
-            return ""
-        }
-        return nameValue
+    enum CodingKeys: String, CodingKey {
+        case id
+        case latitude
+        case longitude
+        case name
+        case type
+        case description
+        case estimatedRevenueMillions
+        case attributes
+    }
+    
+    init(id: Int, latitude: Double, longitude: Double, name: String, type: LocationType, description: String, estimatedRevenueMillions: Double) {
+        self.id = id
+        self.latitude = latitude
+        self.longitude = longitude
+        self.name = name
+        self.type = type
+        self.description = description
+        self.estimatedRevenueMillions = estimatedRevenueMillions
+    }
+
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        id = try container.decode(Int.self, forKey: .id)
+        latitude = try container.decode(Double.self, forKey: .latitude)
+        longitude = try container.decode(Double.self, forKey: .longitude)
+        let attributes = try container.decode([LocationAttribute].self, forKey: .attributes)
+        name = try LocationDecoder.decodeNameFrom(attributes: attributes)
+        type = try LocationDecoder.decodeTypeFrom(attributes: attributes)
+        description = try LocationDecoder.decodeDescriptionFrom(attributes: attributes)
+        estimatedRevenueMillions = try LocationDecoder.decodeRevenueFrom(attributes: attributes)
     }
 }

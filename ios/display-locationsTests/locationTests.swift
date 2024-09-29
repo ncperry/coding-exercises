@@ -47,13 +47,21 @@ struct locationTests {
         #expect(location.id == 1)
         #expect(location.latitude == 37.7750)
         #expect(location.longitude == -122.4195)
+        #expect(location.type == .restaurant)
+        #expect(location.name == "Golden Gate Grill")
+        #expect(location.description == "A popular eatery with views of the bay.")
+        #expect(location.estimatedRevenueMillions == 10.5)
     }
 
-    @Test mutating func testDecodeAttributes() {
-        #expect(location.attributes.count == 4)
-        #expect(location.attributes[0].type == "location_type")
-        #expect(location.attributes[0].value == .string("restaurant"))
-        #expect(location.attributes[3].type == "estimated_revenue_millions")
-        #expect(location.attributes[3].value == .double(10.5))
+    @Test func testDoesNotDisplayUnknown() {
+        #expect(!LocationType.displayedCases().contains(.unknown))
+    }
+
+    @Test func testDisplayAlphabetically() {
+        #expect(LocationType.displayedCases() == [.bar, .cafe, .landmark, .museum, .park, .restaurant])
+    }
+
+    @Test func testCapitalizeForLabel() {
+        #expect(LocationType.restaurant.label == "Restaurant")
     }
 }

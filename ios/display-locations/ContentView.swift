@@ -11,18 +11,29 @@ import MapKit
 struct ContentView: View {
     let sanFranciscoCoordinates: CLLocationCoordinate2D
     let initialMapRegion: MapCameraPosition
-    @MainActor @State private var locations = [Location]()
+    @ObservedObject var filters = Filters()
+
     var body: some View {
-        Map(initialPosition: initialMapRegion) {
-            ForEach(locations) { location in
-                Marker(location.name, coordinate: CLLocationCoordinate2D(latitude: location.latitude, longitude: location.longitude))
+        VStack {
+            Menu("Location Types") {
+                ForEach(LocationType.displayedCases(), id: \.self) { locationType in
+                    Toggle(isOn: filters.binding(for: locationType)) {
+                        Text(locationType.label)
+                    }
+                }
             }
-        }
-        .mapControlVisibility(.hidden)
-        .onAppear {
-            Task {
-                let fetcher = LocationFetcher.shared
-                locations = try! await fetcher.fetchLocations()
+            .menuActionDismissBehavior(.disabled)
+            Map(initialPosition: initialMapRegion) {
+                ForEach(filters.visibleLocations) { location in
+                    Marker(location.name, coordinate: CLLocationCoordinate2D(latitude: location.latitude, longitude: location.longitude))
+                }
+            }
+            .mapControlVisibility(.hidden)
+            .onAppear {
+                Task {
+                    let fetcher = LocationFetcher.shared
+                    filters.locations = try! await fetcher.fetchLocations()
+                }
             }
         }
     }
