@@ -33,7 +33,7 @@ struct ContentView: View {
         initialMapRegion = MapCameraPosition.region(
             MKCoordinateRegion(
                 center: sanFranciscoCoordinates,
-                span: MKCoordinateSpan(latitudeDelta: 1, longitudeDelta: 1)
+                span: MKCoordinateSpan(latitudeDelta: 0.02, longitudeDelta: 0.02)
             )
         )
     }
