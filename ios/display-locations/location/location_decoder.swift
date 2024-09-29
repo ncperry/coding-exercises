@@ -8,10 +8,10 @@
 import Foundation
 
 class LocationDecoder {
-    static let NAME_KEY = "name"
-    static let DESCRIPTION_KEY = "description"
-    static let LOCATION_KEY = "location_type"
-    static let REVENUE_KEY = "estimated_revenue_millions"
+    private static let NAME_KEY = "name"
+    private static let DESCRIPTION_KEY = "description"
+    private static let LOCATION_KEY = "location_type"
+    private static let REVENUE_KEY = "estimated_revenue_millions"
 
     static func decodeNameFrom(attributes: [LocationAttribute]) throws -> String {
         try decodeStringFrom(attributes: attributes, for: NAME_KEY)
