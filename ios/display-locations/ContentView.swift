@@ -11,12 +11,22 @@ import MapKit
 struct ContentView: View {
     let sanFranciscoCoordinates: CLLocationCoordinate2D
     let initialMapRegion: MapCameraPosition
+    @MainActor @State private var locations = [Location]()
     var body: some View {
         Map(initialPosition: initialMapRegion) {
-
+            ForEach(locations) { location in
+                Marker(location.name, coordinate: CLLocationCoordinate2D(latitude: location.latitude, longitude: location.longitude))
+            }
         }
         .mapControlVisibility(.hidden)
+        .onAppear {
+            Task {
+                let fetcher = LocationFetcher.init()
+                locations = try! await fetcher.fetchLocations()
+            }
+        }
     }
+
 
     init() {
         sanFranciscoCoordinates = CLLocationCoordinate2D(latitude: 37.7749, longitude: -122.4194)
