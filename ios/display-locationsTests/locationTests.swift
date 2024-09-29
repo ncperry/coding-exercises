@@ -60,4 +60,8 @@ struct locationTests {
         #expect(location.attributes[3].type == "estimated_revenue_millions")
         #expect(location.attributes[3].value == .double(10.5))
     }
+
+    @Test func testDoesNotDisplayUnknown() {
+        #expect(!LocationType.displayedCases().contains(.unknown))
+    }
 }

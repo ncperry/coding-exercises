@@ -28,6 +28,10 @@ enum LocationType: String, CaseIterable {
     case cafe
     case bar
     case unknown
+
+    static func displayedCases() -> [LocationType] {
+        allCases.filter { $0 != .unknown }
+    }
 }
 
 struct LocationAttribute: Decodable {
