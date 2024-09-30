@@ -38,7 +38,11 @@ struct ContentView: View {
                     filters.locations = try! await fetcher.fetchLocations()
                 }
             }
-            .sheet(isPresented: $presentDetail, content: { LocationDetailView(presentedAsModal: self.$presentDetail) })
+            .sheet(isPresented: $presentDetail, content: {
+                selectedLocation().map { selectedLocation in
+                    LocationDetailView(presentedAsModal: self.$presentDetail, location: selectedLocation)
+                }
+            })
             .onChange(of: selection) {
                 presentDetail = selection != nil
             }
@@ -54,6 +58,10 @@ struct ContentView: View {
                 span: MKCoordinateSpan(latitudeDelta: 0.02, longitudeDelta: 0.02)
             )
         )
+    }
+
+    private func selectedLocation() -> Location? {
+        filters.locations.first(where: { $0.id == selection })
     }
 }
 
