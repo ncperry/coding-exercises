@@ -24,8 +24,10 @@ struct ContentView: View {
                         Text(locationType.label)
                     }
                 }
-            }.foregroundStyle(.black)
+            }
+            .foregroundStyle(.black)
             .menuActionDismissBehavior(.disabled)
+
             Map(initialPosition: initialMapRegion, selection: $selection) {
                 ForEach(filters.visibleLocations) { location in
                     Annotation(location.name, coordinate: CLLocationCoordinate2D(latitude: location.latitude, longitude: location.longitude)) {
@@ -51,18 +53,18 @@ struct ContentView: View {
                     }
                 }
             }
-            .sheet(isPresented: $presentDetail, content: {
-                selectedLocation().map { selectedLocation in
-                    LocationDetailView(presentedAsModal: self.$presentDetail, selection: $selection, location: selectedLocation)
-                }
-            })
-            .onChange(of: selection) {
-                presentDetail = selection != nil
+        }
+        .sheet(isPresented: $presentDetail, content: {
+            selectedLocation().map { selectedLocation in
+                LocationDetailView(presentedAsModal: self.$presentDetail, selection: $selection, location: selectedLocation)
             }
-            .alert("Failed to load locations. Please contact support.", isPresented: $displayError) {
-                Button("Ok", role: .cancel) {
-                    displayError = false
-                }
+        })
+        .onChange(of: selection) {
+            presentDetail = selection != nil
+        }
+        .alert("Failed to load locations. Please contact support.", isPresented: $displayError) {
+            Button("Ok", role: .cancel) {
+                displayError = false
             }
         }
     }

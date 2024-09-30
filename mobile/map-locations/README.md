@@ -80,10 +80,25 @@ Do not edit any lines above this line break.
 
 ## Getting Started
 
-Fill out with necessary information and remove this line.
+No external libraries were used for this coding exercise. This app requires iOS 18. Please update your XCode accordingly.
 
+This app works both on iPhone and iPad.
+
+No Developer Account has been added to the project. Please run the app in the simulator.
 
 
 ## Implementation
 
-Fill out with necessary information and remove this line.
+For this exercise, I chose SwiftUI over UIKit. If there had been more navigation tasks, I may have considered UIKit.
+
+I chose to use unit testing, rather than UI Testing. In my experience, unit testing is more useful for driving out software design. UI Testing is also too slow to be part of a Github Action CI suite. UI Testing is more suited for daily regression test runs which were beyond the scope of this coding challenge. I did consider the [ViewInspector](https://github.com/nalexn/ViewInspector) framework, as it is a popular testing framework for testing the view hierarchy in unit tests. I eventually discarded the notion, as it proved to not work easily with MapKit. The styling and interactions not verified by unit tests are easy to test by hand.
+
+I chose to use the Decodable interface for decoding locations from json. This was perhaps slightly more difficult than decoding the json manually would have been, as translating a json array of attributes to properties on the location struct did come with some challenges. The final solution works well, and is easy to follow, so no refactor to manual decoding is justified.
+
+I chose not to localize the app, as localization was not in the evaluation criteria.
+
+I chose a black and white theme. This worked well with the icons I found for the different location types.
+
+I did notice that some of locations were off. I plotted the location for the Chinatown Gate listed in the json file, and noticed it did not match the real world location. I looked up the location for the gate, and found that indeed the latitude and longitude listed in the json file do not match the real world location. I decided that the accuracy of the coordinates was perhaps not the point of this coding challenge, and left the coordinates as is.
+
+I regret not using `squash on merge` for my pull requests. I believe that would have made my work easier to follow.
