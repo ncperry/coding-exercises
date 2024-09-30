@@ -32,7 +32,7 @@ struct ContentView: View {
                             Image(icon_name)
                                 .resizable()
                                 .aspectRatio(contentMode: .fit)
-                                .frame(width: 20, height: 20)
+                                .frame(width: 25, height: 25)
                                 .border(.black, width: 1)
                         }
                     }
