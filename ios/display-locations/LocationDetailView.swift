@@ -12,7 +12,16 @@ struct LocationDetailView: View {
     var location: Location
 
     var body: some View {
-        Text(location.name)
-        Button("dismiss") { self.presentedAsModal = false }
+        NavigationStack {
+            VStack(alignment: .leading) {
+                Text(location.name)
+                    .font(.largeTitle)
+            }
+            .toolbar {
+                Button("Dismiss") {
+                    self.presentedAsModal = false
+                }
+            }
+        }
     }
 }
