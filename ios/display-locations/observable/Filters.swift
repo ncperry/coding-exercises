@@ -45,11 +45,10 @@ class Filters: ObservableObject {
     func calculateVisibleLocations() {
         visibleLocations = filters.keys.filter({ key in
             return filters[key] ?? false
-        }).reduce([Location]()) { soFar, type in
+        }).reduce(into: [Location]()) { accumlator, type in
             if let locationsMatchingType = locationsByType[type] {
-                return soFar + locationsMatchingType
+                accumlator.append(contentsOf: locationsMatchingType)
             }
-            return soFar
         }
     }
 }
