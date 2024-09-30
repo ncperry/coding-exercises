@@ -27,8 +27,16 @@ struct ContentView: View {
             .menuActionDismissBehavior(.disabled)
             Map(initialPosition: initialMapRegion, selection: $selection) {
                 ForEach(filters.visibleLocations) { location in
-                    Marker(location.name, coordinate: CLLocationCoordinate2D(latitude: location.latitude, longitude: location.longitude))
-                        .tag(location.id)
+                    Annotation(location.name, coordinate: CLLocationCoordinate2D(latitude: location.latitude, longitude: location.longitude)) {
+                        location.type.icon_name.map { icon_name in
+                            Image(icon_name)
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .frame(width: 20, height: 20)
+                                .border(.black, width: 1)
+                        }
+                    }
+                    .tag(location.id)
                 }
             }
             .mapControlVisibility(.hidden)
