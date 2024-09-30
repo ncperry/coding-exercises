@@ -18,15 +18,7 @@ struct ContentView: View {
 
     var body: some View {
         VStack {
-            Menu("Location Types") {
-                ForEach(LocationType.displayedCases(), id: \.self) { locationType in
-                    Toggle(isOn: filters.binding(for: locationType)) {
-                        Text(locationType.label)
-                    }
-                }
-            }
-            .foregroundStyle(.black)
-            .menuActionDismissBehavior(.disabled)
+            LocationTypePicker(filters: filters)
 
             Map(initialPosition: initialMapRegion, selection: $selection) {
                 ForEach(filters.visibleLocations) { location in
