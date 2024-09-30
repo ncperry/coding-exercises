@@ -22,12 +22,7 @@ struct ContentView: View {
         }
         .onAppear {
             Task {
-                let fetcher = LocationFetcher.shared
-                do {
-                    filters.locations = try await fetcher.fetchLocations()
-                } catch {
-                    self.displayError = true
-                }
+                await fetchLocations()
             }
         }
         .sheet(isPresented: $presentDetail, content: {
@@ -47,6 +42,15 @@ struct ContentView: View {
 
     private func selectedLocation() -> Location? {
         filters.locations.first(where: { $0.id == selection })
+    }
+
+    private func fetchLocations() async {
+        let fetcher = LocationFetcher.shared
+        do {
+            filters.locations = try await fetcher.fetchLocations()
+        } catch {
+            self.displayError = true
+        }
     }
 }
 
