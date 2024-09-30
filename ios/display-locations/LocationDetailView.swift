@@ -16,6 +16,13 @@ struct LocationDetailView: View {
         NavigationStack {
             HStack {
                 VStack(alignment: .leading) {
+                    location.type.icon_name.map { icon_name in
+                        Image(icon_name)
+                            .resizable()
+                            .aspectRatio(contentMode: .fill)
+                            .frame(maxWidth: 100, maxHeight: 100)
+                            .padding([.leading, .trailing], horizontalPadding)
+                    }
                     Text(location.name)
                         .font(.title)
                         .padding(.bottom)
@@ -59,7 +66,7 @@ struct LocationDetailView: View {
             latitude: 0,
             longitude: 0,
             name: "Golden Gate Grill but Like With a Really Long Title That Will Wrap a Few Times",
-            type: .restaurant,
+            type: .bar,
             description: "A popular eatery with views of the bay. You'll probably see a few elephant seals. The lights over in Sausilito.",
             estimatedRevenueMillions: 10.5
         )
