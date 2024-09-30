@@ -10,7 +10,6 @@ import Foundation
 @testable import display_locations
 
 struct locationTests {
-
     let jsonString = """
         {
             "id": 1,
@@ -61,7 +60,7 @@ struct locationTests {
         #expect(LocationType.displayedCases() == [.bar, .cafe, .landmark, .museum, .park, .restaurant])
     }
 
-    @Test func testCapitalizeForLabel() {
+    @Test func testCapitalizeLabel() {
         #expect(LocationType.restaurant.label == "Restaurant")
     }
 }

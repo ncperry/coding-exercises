@@ -55,4 +55,3 @@ class LocationDecoder {
         return value
     }
 }
-

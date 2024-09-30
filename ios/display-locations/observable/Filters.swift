@@ -28,10 +28,6 @@ class Filters: ObservableObject {
         })
     }
 
-    var keys: [LocationType] {
-        LocationType.allCases
-    }
-
     func binding(for key: LocationType) -> Binding<Bool> {
         return Binding(get: {
             return self.filters[key] ?? false
