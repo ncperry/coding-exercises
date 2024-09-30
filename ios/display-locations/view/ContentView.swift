@@ -20,6 +20,16 @@ struct ContentView: View {
             LocationTypePicker(filters: filters)
             MapView(filters: filters, selection: $selection, presentDetail: $presentDetail)
         }
+        .onAppear {
+            Task {
+                let fetcher = LocationFetcher.shared
+                do {
+                    filters.locations = try await fetcher.fetchLocations()
+                } catch {
+                    self.displayError = true
+                }
+            }
+        }
         .sheet(isPresented: $presentDetail, content: {
             selectedLocation().map { selectedLocation in
                 LocationDetailView(presentedAsModal: self.$presentDetail, selection: $selection, location: selectedLocation)
@@ -27,6 +37,11 @@ struct ContentView: View {
         })
         .onChange(of: selection) {
             presentDetail = selection != nil
+        }
+        .alert("Failed to load locations. Please contact support.", isPresented: $displayError) {
+            Button("Ok", role: .cancel) {
+                displayError = false
+            }
         }
     }
 

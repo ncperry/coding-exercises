@@ -11,10 +11,10 @@ import MapKit
 struct MapView: View {
     let sanFranciscoCoordinates: CLLocationCoordinate2D
     let initialMapRegion: MapCameraPosition
+
     @ObservedObject var filters = Filters()
     var selection: Binding<Int?>
     var presentDetail: Binding<Bool>
-    @State private var displayError: Bool = false
 
     var body: some View {
         Map(initialPosition: initialMapRegion, selection: selection) {
@@ -32,21 +32,6 @@ struct MapView: View {
             }
         }
         .mapControlVisibility(.hidden)
-        .onAppear {
-            Task {
-                let fetcher = LocationFetcher.shared
-                do {
-                    filters.locations = try await fetcher.fetchLocations()
-                } catch {
-                    self.displayError = true
-                }
-            }
-        }
-        .alert("Failed to load locations. Please contact support.", isPresented: $displayError) {
-            Button("Ok", role: .cancel) {
-                displayError = false
-            }
-        }
     }
 
     init(filters: Filters, selection: Binding<Int?>, presentDetail: Binding<Bool>) {
