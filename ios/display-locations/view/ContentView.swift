@@ -14,6 +14,7 @@ struct ContentView: View {
     @ObservedObject var filters = Filters()
     @State private var selection: Int?
     @State private var presentDetail: Bool = false
+    @State private var displayError: Bool = false
 
     var body: some View {
         VStack {
@@ -43,7 +44,11 @@ struct ContentView: View {
             .onAppear {
                 Task {
                     let fetcher = LocationFetcher.shared
-                    filters.locations = try! await fetcher.fetchLocations()
+                    do {
+                        filters.locations = try await fetcher.fetchLocations()
+                    } catch {
+                        displayError = true
+                    }
                 }
             }
             .sheet(isPresented: $presentDetail, content: {
@@ -53,6 +58,11 @@ struct ContentView: View {
             })
             .onChange(of: selection) {
                 presentDetail = selection != nil
+            }
+            .alert("Failed to load locations. Please contact support.", isPresented: $displayError) {
+                Button("Ok", role: .cancel) {
+                    displayError = false
+                }
             }
         }
     }
