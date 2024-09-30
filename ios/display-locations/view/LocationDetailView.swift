@@ -9,6 +9,7 @@ import SwiftUI
 
 struct LocationDetailView: View {
     @Binding var presentedAsModal: Bool
+    @Binding var selection: Int?
     var location: Location
     private let horizontalPadding: CGFloat = 24
 
@@ -47,6 +48,7 @@ struct LocationDetailView: View {
                 .toolbar {
                     Button("Dismiss") {
                         self.presentedAsModal = false
+                        self.selection = nil
                     }
                 }
                 .padding([.leading, .trailing], 20)
@@ -61,6 +63,7 @@ struct LocationDetailView: View {
 #Preview {
     LocationDetailView(
         presentedAsModal: Binding.constant(true),
+        selection: Binding.constant(0),
         location: Location.init(
             id: 0,
             latitude: 0,

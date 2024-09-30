@@ -24,7 +24,7 @@ struct ContentView: View {
                         Text(locationType.label)
                     }
                 }
-            }
+            }.foregroundStyle(.black)
             .menuActionDismissBehavior(.disabled)
             Map(initialPosition: initialMapRegion, selection: $selection) {
                 ForEach(filters.visibleLocations) { location in
@@ -53,7 +53,7 @@ struct ContentView: View {
             }
             .sheet(isPresented: $presentDetail, content: {
                 selectedLocation().map { selectedLocation in
-                    LocationDetailView(presentedAsModal: self.$presentDetail, location: selectedLocation)
+                    LocationDetailView(presentedAsModal: self.$presentDetail, selection: $selection, location: selectedLocation)
                 }
             })
             .onChange(of: selection) {
