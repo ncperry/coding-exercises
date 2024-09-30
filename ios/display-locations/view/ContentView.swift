@@ -45,7 +45,6 @@ struct ContentView: View {
         }
     }
 
-
     private func selectedLocation() -> Location? {
         filters.locations.first(where: { $0.id == selection })
     }
