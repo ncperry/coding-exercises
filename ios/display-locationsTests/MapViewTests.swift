@@ -10,7 +10,6 @@ import MapKit
 @testable import display_locations
 
 struct map_viewTests {
-
     @Test func testInitialLocation() async throws {
         let contentView = await ContentView.init()
         let sanFranciscoCoordinates = CLLocationCoordinate2D(latitude: 37.7749, longitude: -122.4194)
@@ -19,5 +18,4 @@ struct map_viewTests {
         #expect(latitude == sanFranciscoCoordinates.latitude)
         #expect(longitude == sanFranciscoCoordinates.longitude)
     }
-
 }

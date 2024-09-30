@@ -39,9 +39,11 @@ struct Location: Decodable, Identifiable {
 
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
+
         id = try container.decode(Int.self, forKey: .id)
         latitude = try container.decode(Double.self, forKey: .latitude)
         longitude = try container.decode(Double.self, forKey: .longitude)
+
         let attributes = try container.decode([LocationAttribute].self, forKey: .attributes)
         name = try LocationDecoder.decodeNameFrom(attributes: attributes)
         type = try LocationDecoder.decodeTypeFrom(attributes: attributes)

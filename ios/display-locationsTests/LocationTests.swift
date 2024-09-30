@@ -10,7 +10,6 @@ import Foundation
 @testable import display_locations
 
 struct locationTests {
-
     let jsonString = """
         {
             "id": 1,
