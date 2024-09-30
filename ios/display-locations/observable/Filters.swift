@@ -38,11 +38,11 @@ class Filters: ObservableObject {
         })
     }
 
-    func categorizeLocations() {
+    private func categorizeLocations() {
         locationsByType = Dictionary.init(grouping: locations, by: { $0.type })
     }
 
-    func calculateVisibleLocations() {
+    private func calculateVisibleLocations() {
         visibleLocations = filters.keys.filter({ key in
             return filters[key] ?? false
         }).reduce(into: [Location]()) { accumlator, type in
