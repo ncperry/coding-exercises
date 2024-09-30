@@ -16,8 +16,8 @@ struct LocationDetailView: View {
         NavigationStack {
             HStack {
                 VStack(alignment: .leading) {
-                    location.type.icon_name.map { icon_name in
-                        Image(icon_name)
+                    location.type.iconName.map { iconName in
+                        Image(iconName)
                             .resizable()
                             .aspectRatio(contentMode: .fill)
                             .frame(maxWidth: 100, maxHeight: 100)

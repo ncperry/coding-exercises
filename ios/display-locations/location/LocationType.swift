@@ -26,7 +26,7 @@ enum LocationType: String, CaseIterable {
         })
     }
 
-    var icon_name: String? {
+    var iconName: String? {
         switch self {
         case .restaurant:
             return "restaurant_icon"

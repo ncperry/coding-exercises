@@ -28,8 +28,8 @@ struct ContentView: View {
             Map(initialPosition: initialMapRegion, selection: $selection) {
                 ForEach(filters.visibleLocations) { location in
                     Annotation(location.name, coordinate: CLLocationCoordinate2D(latitude: location.latitude, longitude: location.longitude)) {
-                        location.type.icon_name.map { icon_name in
-                            Image(icon_name)
+                        location.type.iconName.map { iconName in
+                            Image(iconName)
                                 .resizable()
                                 .aspectRatio(contentMode: .fit)
                                 .frame(width: 25, height: 25)
