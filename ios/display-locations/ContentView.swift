@@ -12,6 +12,8 @@ struct ContentView: View {
     let sanFranciscoCoordinates: CLLocationCoordinate2D
     let initialMapRegion: MapCameraPosition
     @ObservedObject var filters = Filters()
+    @State private var selection: Int?
+    @State private var presentDetail: Bool = false
 
     var body: some View {
         VStack {
@@ -23,9 +25,10 @@ struct ContentView: View {
                 }
             }
             .menuActionDismissBehavior(.disabled)
-            Map(initialPosition: initialMapRegion) {
+            Map(initialPosition: initialMapRegion, selection: $selection) {
                 ForEach(filters.visibleLocations) { location in
                     Marker(location.name, coordinate: CLLocationCoordinate2D(latitude: location.latitude, longitude: location.longitude))
+                        .tag(location.id)
                 }
             }
             .mapControlVisibility(.hidden)
@@ -34,6 +37,14 @@ struct ContentView: View {
                     let fetcher = LocationFetcher.shared
                     filters.locations = try! await fetcher.fetchLocations()
                 }
+            }
+            .sheet(isPresented: $presentDetail, content: {
+                selectedLocation().map { selectedLocation in
+                    LocationDetailView(presentedAsModal: self.$presentDetail, location: selectedLocation)
+                }
+            })
+            .onChange(of: selection) {
+                presentDetail = selection != nil
             }
         }
     }
@@ -47,6 +58,10 @@ struct ContentView: View {
                 span: MKCoordinateSpan(latitudeDelta: 0.02, longitudeDelta: 0.02)
             )
         )
+    }
+
+    private func selectedLocation() -> Location? {
+        filters.locations.first(where: { $0.id == selection })
     }
 }
 

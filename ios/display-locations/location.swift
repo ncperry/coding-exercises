@@ -25,6 +25,25 @@ enum LocationType: String, CaseIterable {
             type1.rawValue < type2.rawValue
         })
     }
+
+    var icon_name: String? {
+        switch self {
+        case .restaurant:
+            return "restaurant_icon"
+        case .bar:
+            return "bar_icon"
+        case .museum:
+            return "museum_icon"
+        case .park:
+            return "park_icon"
+        case .landmark:
+            return "landmark_icon"
+        case .cafe:
+            return "cafe_icon"
+        default:
+            return nil
+        }
+    }
 }
 
 struct Location: Decodable, Identifiable {
