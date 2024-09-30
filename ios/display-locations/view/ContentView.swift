@@ -18,7 +18,7 @@ struct ContentView: View {
     var body: some View {
         VStack {
             LocationTypePicker(filters: filters)
-            MapView(filters: filters, selection: $selection, presentDetail: $presentDetail)
+            MapView(filters: filters, selection: $selection)
         }
         .onAppear {
             Task {

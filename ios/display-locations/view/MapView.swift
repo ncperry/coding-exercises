@@ -14,7 +14,6 @@ struct MapView: View {
 
     @ObservedObject var filters = Filters()
     var selection: Binding<Int?>
-    var presentDetail: Binding<Bool>
 
     var body: some View {
         Map(initialPosition: initialMapRegion, selection: selection) {
@@ -34,10 +33,10 @@ struct MapView: View {
         .mapControlVisibility(.hidden)
     }
 
-    init(filters: Filters, selection: Binding<Int?>, presentDetail: Binding<Bool>) {
+    init(filters: Filters, selection: Binding<Int?>) {
         self.filters = filters
         self.selection = selection
-        self.presentDetail = presentDetail
+
         sanFranciscoCoordinates = CLLocationCoordinate2D(latitude: 37.7749, longitude: -122.4194)
         initialMapRegion = MapCameraPosition.region(
             MKCoordinateRegion(
