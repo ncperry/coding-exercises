@@ -17,9 +17,11 @@ class Filters: ObservableObject {
     }
     @Published var locations = [Location]() {
         didSet {
+            categorizeLocations()
             calculateVisibleLocations()
         }
     }
+    private var locationsByType = Dictionary<LocationType, [Location]>()
     @Published var visibleLocations = [Location]()
 
     init() {
@@ -36,12 +38,17 @@ class Filters: ObservableObject {
         })
     }
 
-    func calculateVisibleLocations() {
-        let visibleTypes = filters.keys.filter({ key in
+    private func categorizeLocations() {
+        locationsByType = Dictionary.init(grouping: locations, by: { $0.type })
+    }
+
+    private func calculateVisibleLocations() {
+        visibleLocations = filters.keys.filter({ key in
             return filters[key] ?? false
-        })
-        visibleLocations = locations.filter({ location in
-            return visibleTypes.contains(location.type)
-        })
+        }).reduce(into: [Location]()) { accumlator, type in
+            if let locationsMatchingType = locationsByType[type] {
+                accumlator.append(contentsOf: locationsMatchingType)
+            }
+        }
     }
 }
