@@ -60,7 +60,7 @@ struct locationTests {
         #expect(LocationType.displayedCases() == [.bar, .cafe, .landmark, .museum, .park, .restaurant])
     }
 
-    @Test func testCapitalizeForLabel() {
+    @Test func testCapitalizeLabel() {
         #expect(LocationType.restaurant.label == "Restaurant")
     }
 }
