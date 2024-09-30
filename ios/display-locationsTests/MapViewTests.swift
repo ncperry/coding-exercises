@@ -10,7 +10,7 @@ import MapKit
 import SwiftUI
 @testable import display_locations
 
-struct map_viewTests {
+struct MapViewTests {
     @State private var selection: Int?
     @State private var presentDetail: Bool = false
 

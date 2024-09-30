@@ -8,7 +8,7 @@
 import Testing
 @testable import display_locations
 
-struct location_fetcherTests {
+struct LocationFetcherTests {
     @Test func testForceUnwrapURL() {
         let fetcher = LocationFetcher.shared
         #expect(fetcher.url != nil)

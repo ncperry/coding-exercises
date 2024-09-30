@@ -8,7 +8,7 @@
 import Testing
 @testable import display_locations
 
-struct filtersTests {
+struct FiltersTests {
     @Test func testVisibleLocations() async throws {
         let filters = Filters()
         filters.filters = [
