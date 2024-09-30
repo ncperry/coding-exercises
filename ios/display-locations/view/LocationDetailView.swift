@@ -52,9 +52,6 @@ struct LocationDetailView: View {
                     }
                 }
                 .padding([.leading, .trailing], 20)
-                .frame(maxWidth: .infinity, maxHeight: .infinity) // 1
-                .accentColor(Color.black)
-                .background(.white)
             }
         }
     }
